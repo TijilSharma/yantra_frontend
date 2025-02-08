@@ -1,0 +1,133 @@
+/* Background and General Styles */
+body {
+  background: linear-gradient(135deg, #0d1117, #161b22, #22272e);
+  color: white;
+  min-height: 100vh;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Overview Page Background */
+.overview-background {
+  background: url("/public/Images/background.jpeg") no-repeat center center/cover;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.accordion-button::after {
+  filter: invert(1); /* Makes the dropdown icon white */
+}
+.accordion-button:focus, 
+.accordion-button:active {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.accordion-item {
+  border: none !important;
+}
+/* Dark overlay for better text readability */
+.overview-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Adjust darkness */
+  z-index: 1;
+}
+
+.overview-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 100%;
+  padding: 5% 10%;
+}
+
+/* Accordion and Cards */
+.accordion-header {
+  background-color: #222222 !important;
+  color: white !important;
+}
+
+.accordion-button {
+  background-color: #333333 !important;
+  color: white !important;
+  font-size: 1.3rem !important;
+  font-weight: bold !important;
+  padding: 20px !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #444444 !important;
+  color: #00aaff !important;
+  border: 2px solid #007bff !important;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important;
+}
+
+.accordion-body {
+  background-color: #181818 !important;
+  color: white !important;
+  font-size: 1.1rem !important;
+  padding: 20px !important;
+  text-align: left !important; /* Ensures left alignment */
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.card {
+  background: linear-gradient(145deg, #232323, #1a1a1a);
+  border: none !important; /* Removes border */
+  color: white;
+  box-shadow: none !important; /* Removes shadow */
+}
+
+
+/* Button Styles */
+.btn-primary {
+  background: linear-gradient(90deg, #007bff, #0056b3);
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-weight: bold;
+  box-shadow: 0px 5px 15px rgba(0, 123, 255, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(90deg, #0056b3, #003f7f);
+  box-shadow: 0px 5px 20px rgba(0, 123, 255, 0.5);
+  transform: scale(1.05);
+}
+.team-card {
+  background: #ffffff;  /* Keep the white card */
+  border: none;
+  text-align: center;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.team-card:hover {
+  transform: scale(1.05);
+}
+
+.team-card .card-title {
+  color: #222 !important;  /* Darker name color */
+  font-weight: bold;  /* Make it bold */
+}
+
+.team-card .card-text {
+  color: #333 !important;  /* Slightly darker subtitle */
+}
+
+
+
+

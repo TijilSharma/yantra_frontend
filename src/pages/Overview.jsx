@@ -9,7 +9,7 @@ const teamMembers = [
   { name: "Anjika Prasad", role: "ML Developer"},
   { name: "Hemanya Saini", role: "Project Manager"},
   { name: "Abhinav Khurana", role: "Front-End Developer"},
-  {name: "Tijil Sharma",role:"ML Developer"},
+  {name: "Tijil Sharma",role:"Back-End and DevOps Engineer"},
 
 ];
 

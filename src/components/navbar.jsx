@@ -23,11 +23,18 @@ const TopNavbar = () => {
       animate={{ y: 0, opacity: 1 }} // Animate into view
       transition={{ duration: 0.5, ease: "easeOut" }} // Smooth animation
     >
-      <Navbar expand="lg" className={`top-navbar ${scrolled ? "scrolled" : ""}`}>
-        {/* Sentinel Logo */}
-        <Navbar.Brand as={Link} to="/" className="text-white nav-logo">
-          🔍 Sentinel
-        </Navbar.Brand>
+<Navbar expand="lg" className={`top-navbar ${scrolled ? "scrolled" : ""}`}>
+  {/* Sentinel Logo */}
+  <Navbar.Brand as={Link} to="/" className="nav-logo d-flex align-items-center">
+    <img 
+      src="/Images/Sentinel-logo.jpeg" 
+      alt="Sentinel Logo" 
+      style={{ height: "40px", width: "auto", marginRight: "10px" }} 
+    />
+    <span className="text-white fw-bold fs-5">Sentinel</span>
+  </Navbar.Brand>
+
+
 
         {/* Hamburger Menu for Mobile */}
         <div className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
@@ -44,8 +51,8 @@ const TopNavbar = () => {
           <Nav.Link as={Link} to="/upload" className="text-white">
             Upload Data
           </Nav.Link>
-          <Nav.Link as={Link} to="/logs" className="text-white">
-            Incident Logs
+          <Nav.Link as={Link} to="/about-team" className="text-white">
+            About the Team
           </Nav.Link>
         </Nav>
       </Navbar>

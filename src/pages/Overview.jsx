@@ -5,28 +5,25 @@ import { motion } from "framer-motion";
 import "../index.css";
 
 const teamMembers = [
-  { name: "Abhinav Khurana", role: "Front-End Developer"},
-  { name: "Anjika Prasad", role: "Machine Learning Engineer"},
-  { name: "Hemanya Saini", role: "Project Manager"},
-  { name: "Mahi Gadi", role: "Machine Learning Engineer"},
-  {name: "Tijil Sharma",role:"Back-End Developer "},
-  
-  
-  
-
+  { id: "tijil", name: "Tijil Sharma", role: "Team Leader and Backend Developer" },
+  { id: "abhinav", name: "Abhinav Khurana", role: "Front-End Developer" },
+  { id: "mahi", name: "Mahi Gadi", role: "Machine Learning Engineer" },
+  { id: "anjika", name: "Anjika Prasad", role: "Machine Learning Engineer" },
+  { id: "hemanya", name: "Hemanya Saini", role: "Content Moderator & Presentation Lead" },
 ];
+
 
 const Overview = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="overview-background">
+    <div className="overview-background"> 
       <Container fluid className="overview-content">
         {/* Hero Section */}
         <Row className="mb-5 text-center">
           <Col>
             <motion.h1
-              className="fw-bold text-light"
+              className="fw-bold header text-light"
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
@@ -34,7 +31,7 @@ const Overview = () => {
               Sentinel: AI-Powered Predictive Maintenance
             </motion.h1>
             <motion.p
-              className="text-white fs-5"
+              className="text-white header fs-5"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3 }}
@@ -86,37 +83,34 @@ The smartest businesses are making the switch. <b>Will you?</b>
           </Col>
         </Row>
       {/* Team Members Section */}
-<Row className="text-center mt-5">
-  <Col>
-    <motion.h2
-      className="fw-bold text-light"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1 }}
-    >
-      Meet the Team
-    </motion.h2>
-  </Col>
-</Row>
+      <>
+  <h2 className="text-center meet-the-team mt-4">Meet the Team</h2> {/* Added heading */}
+  <Row className="mt-4 d-flex justify-content-center">
+    {teamMembers.map((member, index) => (
+      <Col md={4} sm={6} xs={12} key={index} className="mb-4">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: index * 0.3, ease: "easeOut" }}
+          viewport={{ once: true }}
+        >
+          <Card
+            className="team-card p-3"
+            onClick={() => navigate(`/about-team#${member.id}`)} // Navigate with ID
+            style={{ cursor: "pointer" }}
+          >
+            <Card.Body className="text-center">
+              <Card.Title className="fs-4">{member.name}</Card.Title>
+              <Card.Text className="fs-5">{member.role}</Card.Text>
+            </Card.Body>
+          </Card>
+        </motion.div>
+      </Col>
+    ))}
+  </Row>
+</>
 
-<Row className="mt-4 d-flex justify-content-center">
-  {teamMembers.map((member, index) => (
-    <Col md={4} sm={6} xs={12} key={index} className="mb-4">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: index * 0.2 }}
-      >
-        <Card className="team-card p-3">
-          <Card.Body className="text-center">
-            <Card.Title className="text-light fs-4">{member.name}</Card.Title>
-            <Card.Text className="text-muted fs-5">{member.role}</Card.Text>
-          </Card.Body>
-        </Card>
-      </motion.div>
-    </Col>
-  ))}
-</Row>
+
 
         {/* Call to Action */}
         <Row className="text-center">

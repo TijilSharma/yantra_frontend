@@ -5,11 +5,14 @@ import { motion } from "framer-motion";
 import "../index.css";
 
 const teamMembers = [
-  { name: "Mahi Gadi", role: "ML Developer"},
-  { name: "Anjika Prasad", role: "ML Developer"},
-  { name: "Hemanya Saini", role: "Project Manager"},
   { name: "Abhinav Khurana", role: "Front-End Developer"},
-  {name: "Tijil Sharma",role:"Back-End and DevOps Engineer"},
+  { name: "Anjika Prasad", role: "Machine Learning Engineer"},
+  { name: "Hemanya Saini", role: "Project Manager"},
+  { name: "Mahi Gadi", role: "Machine Learning Engineer"},
+  {name: "Tijil Sharma",role:"Back-End Developer "},
+  
+  
+  
 
 ];
 

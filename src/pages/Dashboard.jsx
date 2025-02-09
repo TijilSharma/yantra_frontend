@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Card } from "react-bootstrap";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, ReferenceLine, PieChart, Pie, Cell } from "recharts";
 import axios from "axios";
 
 const Dashboard = ({ fileUploaded }) => {
   const [histogramData, setHistogramData] = useState([]);
+  const [pieChartData, setPieChartData] = useState([]);
   const [loading, setLoading] = useState(false);
   const backendURL = "https://predictivemain.onrender.com";
 
@@ -12,28 +13,52 @@ const Dashboard = ({ fileUploaded }) => {
   const CRITICAL_THRESHOLD = 45;
 
   useEffect(() => {
-    if (!fileUploaded) return; // ✅ Prevents fetching if no file is uploaded
+    if (!fileUploaded) return;
 
     const fetchHistogramData = async () => {
       setLoading(true);
       try {
         const response = await axios.get(`${backendURL}/load-data`);
-        const rulData = response.data.data || [];
+        const finalRULData = response.data.final_data_RUL || [];
 
-        if (!Array.isArray(rulData)) {
-          throw new Error("Invalid RUL data received.");
+        console.log("Received final_data_RUL:", finalRULData); // ✅ Log received data
+
+        if (!Array.isArray(finalRULData) || finalRULData.length === 0) {
+          console.warn("⚠️ No valid data found for final_data_RUL.");
+          setLoading(false);
+          return;
         }
 
+        // Process histogram data
         const binSize = 10;
-        const bins = rulData.reduce((acc, item) => {
+        const bins = finalRULData.reduce((acc, item) => {
           const bin = Math.floor(item.Predicted_RUL / binSize) * binSize;
           acc[bin] = (acc[bin] || 0) + 1;
           return acc;
         }, {});
 
-        setHistogramData(Object.entries(bins).map(([bin, count]) => ({ bin: Number(bin), count })));
+        const histogram = Object.entries(bins).map(([bin, count]) => ({ bin: Number(bin), count }));
+        console.log("Histogram Data:", histogram); // ✅ Log histogram data
+        setHistogramData(histogram);
+
+        // Process pie chart data
+        let lowRisk = 0, mediumRisk = 0, highRisk = 0;
+        finalRULData.forEach((item) => {
+          if (item.Predicted_RUL > WARNING_THRESHOLD) lowRisk++;
+          else if (item.Predicted_RUL > CRITICAL_THRESHOLD) mediumRisk++;
+          else highRisk++;
+        });
+
+        const pieChart = [
+          { name: "Low Risk", value: lowRisk },
+          { name: "Medium Risk", value: mediumRisk },
+          { name: "High Risk", value: highRisk },
+        ];
+        console.log("Pie Chart Data:", pieChart); // ✅ Log pie chart data
+        setPieChartData(pieChart);
+
       } catch (error) {
-        console.error("Error fetching RUL data:", error);
+        console.error("Error fetching final_data_RUL:", error);
       } finally {
         setLoading(false);
       }
@@ -41,6 +66,8 @@ const Dashboard = ({ fileUploaded }) => {
 
     fetchHistogramData();
   }, [fileUploaded]);
+
+  const COLORS = ["#00C49F", "#FFBB28", "#FF3D00"];
 
   return (
     <div className="content p-4">
@@ -53,7 +80,7 @@ const Dashboard = ({ fileUploaded }) => {
 
       <Row className="mb-4">
         {[
-          { title: "🚨 High Risk Failures", text: "3 Components at High Risk" },
+          { title: "🚨 High Risk Failures", text: `${pieChartData.find(d => d.name === "High Risk")?.value || 0} Components at High Risk` },
           { title: "🔄 Remaining Useful Life", text: "Avg. 120 hours per component" },
           { title: "⚠️ Anomalies Detected", text: "2 Unusual Patterns Found" },
         ].map((item, index) => (
@@ -70,7 +97,7 @@ const Dashboard = ({ fileUploaded }) => {
 
       {!loading && histogramData.length > 0 && (
         <Row className="mt-4">
-          <Col>
+          <Col md={6}>
             <Card className="p-4 shadow-sm bg-dark text-light">
               <Card.Body>
                 <Card.Title>📊 RUL Distribution</Card.Title>
@@ -88,6 +115,25 @@ const Dashboard = ({ fileUploaded }) => {
               </Card.Body>
             </Card>
           </Col>
+
+          <Col md={6}>
+            <Card className="p-4 shadow-sm bg-dark text-light">
+              <Card.Body>
+                <Card.Title>📊 Machine Health Risk</Card.Title>
+                <ResponsiveContainer width="100%" height={400}>
+                  <PieChart>
+                    <Pie data={pieChartData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={120} label>
+                      {pieChartData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </Card.Body>
+            </Card>
+          </Col>
         </Row>
       )}
     </div>
@@ -95,6 +141,9 @@ const Dashboard = ({ fileUploaded }) => {
 };
 
 export default Dashboard;
+
+
+
 
 
 

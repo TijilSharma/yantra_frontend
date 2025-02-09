@@ -18,18 +18,34 @@ const UploadData = ({ setFileUploaded }) => {
       setError("");
 
       try {
+        // Upload file
         const uploadResponse = await axios.post(`${backendURL}/upload`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
 
-        if (!uploadResponse.data.filename) {
-          throw new Error("Invalid upload response from server.");
+        console.log("File uploaded:", uploadResponse.data.filename);
+
+        // Fetch processed data
+        const dataResponse = await axios.get(`${backendURL}/load-data`);
+        const { filename, original_data, final_data_RUL, final_data_ANA } = dataResponse.data;
+
+        console.log("Received latest file:", filename);
+        
+        // ✅ Log original_data in console instead of showing table
+        console.log("Original Data:", original_data);
+
+        if (final_data_RUL) {
+          console.log("Received final_data_RUL:", final_data_RUL);
         }
 
-        setFileUploaded(true); // ✅ Set upload flag
+        if (final_data_ANA) {
+          console.log("Received final_data_ANA:", final_data_ANA);
+        }
+
+        setFileUploaded(true); // Indicate successful upload
       } catch (err) {
-        console.error("Error uploading file:", err);
-        setError("File upload failed. Please try again.");
+        console.error("Error processing file:", err);
+        setError("File processing failed. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -57,6 +73,13 @@ const UploadData = ({ setFileUploaded }) => {
 };
 
 export default UploadData;
+
+
+
+
+
+
+
 
 
 
